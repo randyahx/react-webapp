@@ -10,7 +10,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Ubi Road, Singapore 731002",
       "date": "25/5/2019",
-      "status": "Assigned",
+      "status": "Assigned"
     },
     {
       "booking_id": "10000002",
@@ -22,7 +22,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Changi Road, Singapore 731002",
       "date": "29/5/2019",
-      "status": "Completed",
+      "status": "Completed"
     },
     {
       "booking_id": "10000003",
@@ -34,7 +34,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Hougang Road, Singapore 731002",
       "date": "25/5/2019",
-      "status": "Cancelled",
+      "status": "Cancelled"
     },
     {
       "booking_id": "10000004",
@@ -46,7 +46,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Jurong East, Singapore 731002",
       "date": "25/5/2019",
-      "status": "Unassigned",
+      "status": "Unassigned"
     },
     {
       "booking_id": "10000005",
@@ -58,7 +58,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Ubi Road, Singapore 731002",
       "date": "25/5/2019",
-      "status": "In Transit",
+      "status": "In Transit"
     },
     {
       "booking_id": "100000016",
@@ -70,7 +70,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Punggol, Singapore 731002",
       "date": "25/5/2019",
-      "status": "Assigned",
+      "status": "Assigned"
     },
     {
       "booking_id": "10000007",
@@ -82,7 +82,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "Orchard Building, Singapore 731002",
       "date": "25/5/2019",
-      "status": "Assigned",
+      "status": "Assigned"
     },
     {
       "booking_id": "10000008",
@@ -94,7 +94,7 @@
       "location_start": "CloudPlus Warehouse",
       "destination": "AMK, Singapore 731002",
       "date": "25/5/2019",
-      "status": "Assigned",
+      "status": "Assigned"
     },
     {
       "booking_id": "10000009",
@@ -107,6 +107,10 @@
       "destination": "Yishun, Singapore 731002",
       "date": "25/5/2019",
       "status": "Assigned"
-    }  
+    }
   ]
 }
+
+
+
+
