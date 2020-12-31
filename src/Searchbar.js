@@ -1,48 +1,44 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const Search = ({onSearchSubmit}) => {
+const Search = ({onSearch}) => {
     const [term, setTerm] = useState('');
-    const [debouncedTerm, setDebouncedTerm] = useState(term);
     const [response, setResponse] = useState([]);
 
-    useEffect(() => {debouncing()}, [term]);
-    useEffect(() => {doSearch()}, [debouncedTerm]);
+    // useEffect(onSearch(response), [response]);
 
+    useEffect(() => {
+        const search = async () => {
+            const {data} = await axios.get('https://en.wikipedia.org/w/api.php?', {
+                params: {
+                    action: 'query',
+                    list: 'search',
+                    origin: '*',
+                    format: 'json',
+                    srsearch: term,
+                }
+            });
+            console.log(response);
+            setResponse(data.query.search);
+        };
 
-    // console.log(term);
-    // console.log(debouncedTerm);
-
-    // 1. Set debounced term on search term input
-    const debouncing = () => {
-        const debounceTimer = setTimeout(() => {
-            setDebouncedTerm(term);
-        }, 200);
-
-        return () => {
-            clearTimeout(debounceTimer);
-        }
-    }
-
-    // 2. Call api with debounced term instead of search term input
-    const search = async () => {
-        const {data} = await axios.get('https://en.wikipedia.org/w/api.php?', {
-            params: {
-                action: 'query',
-                list: 'search',
-                origin: '*',
-                format: 'json',
-                srsearch: debouncedTerm,
+        // Check if it's the first render -> search immediately without timeout delay
+        if (term && !response.length) {
+            search();
+        } else {
+            // Set timeout delay for subsequent searches
+            const timeoutId = setTimeout(() => {
+                if (term) {
+                    search();
+                }
+            }, 500);
+            // This function is only called the next time useEffect is called
+            return () => {
+                clearTimeout(timeoutId);
             }
-        })
-        console.log(response);
-        setResponse(data.query.search);
-        onSearchSubmit(response);
-    };
+        }
+    }, [term]);
 
-    const doSearch = () => {
-        search();
-    }
 
     const renderedResponse = response.map(data => {
         return (
