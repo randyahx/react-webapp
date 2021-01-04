@@ -8,7 +8,7 @@ import Search from "./Search";
 const ReactTable = ({response}) => {
     // 1. Convert columns and data so they don't reload on render
     const columns = useMemo(() => reacttable_columns, []);
-    const data = useMemo(() => response, []);
+    const data = useMemo(() => db, []);
 
     console.log(data);
 
@@ -16,12 +16,13 @@ const ReactTable = ({response}) => {
     const tableInstance = useTable({
         columns: columns,
         data: data,
+        initialState: { pageIndex: 0, pageSize: 10 },
     }, useFilters, useSortBy, usePagination);
 
     // 3. Extract methods from table instance
-    const { getTableProps, getTableBodyProps, headerGroups, page, nextPage, previousPage, canNextPage, canPreviousPage, pageOptions, prepareRow, state, setGlobalFilter } = tableInstance;
+    const { getTableProps, getTableBodyProps, headerGroups, page, nextPage, previousPage, canNextPage, canPreviousPage, gotoPage, setPageSize, pageCount, pageOptions, prepareRow, setGlobalFilter, state } = tableInstance;
 
-    const {globalFilter, pageIndex} = state;
+    const {globalFilter, pageIndex, pageSize} = state;
 
     // const renderPaginationRow = headerGroups => {
     //     return (
@@ -63,7 +64,17 @@ const ReactTable = ({response}) => {
                         return <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
                 })}
             </tr>
-        )})
+        )});
+
+    const onChangePageSize = e => {
+        const input = (Number(e.target.value))
+        setPageSize(input);
+    }
+
+    const onChangePage = e => {
+        const page = e.target.value ? Number(e.target.value) - 1 : 0;
+        gotoPage(page);
+    }
 
     return (
         <React.Fragment>
@@ -88,6 +99,46 @@ const ReactTable = ({response}) => {
                 {renderBody}
                 </tbody>
             </table>
+
+                <button
+                    color="primary"
+                    onClick={() => gotoPage(0)}
+                    disabled={!canPreviousPage}
+                >
+                    {"<<"}
+                </button>
+                <button
+                    color="primary"
+                    onClick={previousPage}
+                    disabled={!canPreviousPage}
+                >
+                    {"<"}
+                </button>
+
+                Page{" "}
+                <strong>
+                    {pageIndex + 1} of {pageOptions.length}
+                </strong>
+
+                <input
+                    type="number"
+                    min={1}
+                    style={{ width: 70 }}
+                    max={pageOptions.length}
+                    defaultValue={pageIndex + 1}
+                    onChange={onChangePage}
+                />
+
+                <button color="primary" onClick={nextPage} disabled={!canNextPage}>
+                    {">"}
+                </button>
+                <button
+                    color="primary"
+                    onClick={() => gotoPage(pageCount - 1)}
+                    disabled={!canNextPage}
+                >
+                    {">>"}
+                </button>
         </React.Fragment>
     )
 }

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 
-const Search = ({onSearch}) => {
+const Searchbar = ({onSearch}) => {
     const [term, setTerm] = useState('');
     const [response, setResponse] = useState([]);
 
@@ -73,4 +73,4 @@ const Search = ({onSearch}) => {
     );
 }
 
-export default Search;
+export default Searchbar;

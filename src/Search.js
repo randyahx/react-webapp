@@ -6,26 +6,21 @@ const Search = ({onSearchSubmit}) => {
     const [debouncedTerm, setDebouncedTerm] = useState(term);
     const [response, setResponse] = useState([]);
 
-    useEffect(() => {debouncing()}, [term]);
-    useEffect(() => {doSearch()}, [debouncedTerm]);
-
-
-    // console.log(term);
-    // console.log(debouncedTerm);
-
-    // 1. Set debounced term on search term input
-    const debouncing = () => {
-        const debounceTimer = setTimeout(() => {
+    useEffect(() => {
+        const timerId = setTimeout(() => {
+            if (term) {
             setDebouncedTerm(term);
-        }, 200);
+            }
+        }, 1000);
 
         return () => {
-            clearTimeout(debounceTimer);
-        }
-    }
+            clearTimeout(timerId);
+        }   }, [term]);
 
-    // 2. Call api with debounced term instead of search term input
-    const search = async () => {
+    useEffect(() => { const search = async () => {
+        if (!debouncedTerm || debouncedTerm==='') {
+            return [];
+        }
         const {data} = await axios.get('https://en.wikipedia.org/w/api.php?', {
             params: {
                 action: 'query',
@@ -35,14 +30,23 @@ const Search = ({onSearchSubmit}) => {
                 srsearch: debouncedTerm,
             }
         })
-        console.log(response);
         setResponse(data.query.search);
-        onSearchSubmit(response);
     };
-
-    const doSearch = () => {
         search();
-    }
+    }, [debouncedTerm]);
+    //
+    // useEffect(() => {
+    //     onSearchSubmit(response);
+    // }, [response]);
+
+
+    // console.log(term);
+    // console.log(debouncedTerm);
+
+    // 1. Set debounced term on search term
+
+
+    // 2. Call api with debounced term instead of search term input
 
     const renderedResponse = response.map(data => {
         return (
